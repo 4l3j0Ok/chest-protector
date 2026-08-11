@@ -1,6 +1,6 @@
-package com.chestprotector.backport;
+package com.chestprotector;
 
-import com.chestprotector.backport.network.PinPayloads;
+import com.chestprotector.network.PinPayloads;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public final class ChestProtectorBackport implements ModInitializer {
+public final class ChestProtector implements ModInitializer {
     public static final String MOD_ID = "chest_protector";
     public static final Item PASSWORD_PROTECTOR = Registry.register(Registries.ITEM,
         Identifier.of(MOD_ID, "password_protector"), new Item(new Item.Settings().maxCount(16)));

@@ -4,4 +4,4 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = 'chest-protector-1.21.1-backport'
+rootProject.name = 'chest-protector'

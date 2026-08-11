@@ -1,8 +1,8 @@
-package com.chestprotector.backport.client;
+package com.chestprotector.client;
 
-import com.chestprotector.backport.ChestProtectorBackport;
-import com.chestprotector.backport.PasswordProtected;
-import com.chestprotector.backport.network.PinPayloads;
+import com.chestprotector.ChestProtector;
+import com.chestprotector.PasswordProtected;
+import com.chestprotector.network.PinPayloads;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -198,7 +198,7 @@ public final class PinScreen extends Screen {
         if (setup) return Text.translatable("chest_protector.screen.setup.subtitle");
         String owner = "";
         if (client != null && client.world != null) {
-            PasswordProtected data = ChestProtectorBackport.protectionAt(client.world, pos);
+            PasswordProtected data = ChestProtector.protectionAt(client.world, pos);
             if (data != null) owner = data.chestProtector$getOwnerName();
         }
         return owner.isEmpty()

@@ -1,6 +1,6 @@
-package com.chestprotector.backport.mixin;
+package com.chestprotector.mixin;
 
-import com.chestprotector.backport.ChestProtectorBackport;
+import com.chestprotector.ChestProtector;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import org.spongepowered.asm.mixin.Final;
@@ -29,6 +29,6 @@ public abstract class ExplosionMixin {
     private void chestProtector$spareProtectedChests(CallbackInfo ci) {
         // Runs before affectWorld consumes the list, and getAffectedBlocks exposes it directly.
         ((Explosion) (Object) this).getAffectedBlocks()
-            .removeIf(pos -> ChestProtectorBackport.isProtected(world, pos));
+            .removeIf(pos -> ChestProtector.isProtected(world, pos));
     }
 }

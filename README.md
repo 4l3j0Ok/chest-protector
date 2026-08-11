@@ -23,7 +23,7 @@ Fabric mod that adds PIN-protected vanilla chests.
 
 ## Credits
 
-Chest Protector uses [Ward & Watch](https://github.com/JuanSebLopez/Ward-Watch) by JuanSebLopez as its base. Credit goes to the original Ward & Watch project and author for the initial concept and implementation this backport builds on.
+Chest Protector uses [Ward & Watch](https://github.com/JuanSebLopez/Ward-Watch) by JuanSebLopez as its base. Credit goes to the original Ward & Watch project and author for the initial concept and implementation this project builds on.
 
 ## Build
 

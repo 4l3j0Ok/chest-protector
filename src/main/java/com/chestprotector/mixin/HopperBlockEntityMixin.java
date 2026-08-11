@@ -1,6 +1,6 @@
-package com.chestprotector.backport.mixin;
+package com.chestprotector.mixin;
 
-import com.chestprotector.backport.ChestProtectorBackport;
+import com.chestprotector.ChestProtector;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.inventory.Inventory;
@@ -28,7 +28,7 @@ public abstract class HopperBlockEntityMixin {
     @Inject(method = "getBlockInventoryAt(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)Lnet/minecraft/inventory/Inventory;",
             at = @At("RETURN"), cancellable = true)
     private static void chestProtector$blockProtectedInventory(World world, BlockPos pos, BlockState state, CallbackInfoReturnable<Inventory> cir) {
-        if (cir.getReturnValue() != null && ChestProtectorBackport.isProtected(world, pos)) {
+        if (cir.getReturnValue() != null && ChestProtector.isProtected(world, pos)) {
             cir.setReturnValue(null);
         }
     }

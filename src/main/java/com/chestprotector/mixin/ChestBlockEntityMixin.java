@@ -1,6 +1,6 @@
-package com.chestprotector.backport.mixin;
+package com.chestprotector.mixin;
 
-import com.chestprotector.backport.PasswordProtected;
+import com.chestprotector.PasswordProtected;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
