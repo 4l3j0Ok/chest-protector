@@ -1,7 +1,16 @@
 plugins {
     id 'fabric-loom' version "${loom_version}"
 }
-version = project.mod_version
+def ciVersion = providers.provider {
+    def refName = System.getenv("GITHUB_REF_NAME")
+    def tagVersion = refName?.startsWith("v") ? refName.substring(1) : refName
+
+    System.getenv("MOD_VERSION")
+        ?: System.getenv("RELEASE_VERSION")
+        ?: (tagVersion ==~ /\d+\.\d+\.\d+(?:[-+].*)?/ ? tagVersion : null)
+}
+
+version = ciVersion.orElse(project.mod_version).get()
 group = project.maven_group
 base { archivesName = project.archives_base_name }
 loom {
@@ -24,6 +33,9 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
+}
+tasks.named("remapJar") {
+    archiveFileName = "${project.archives_base_name}-${project.version}-fabric-${project.minecraft_version}.jar"
 }
 tasks.withType(JavaCompile).configureEach { options.release = 21 }
 // A toolchain pins the JDK used to compile, so the build no longer depends on whatever
