@@ -4,6 +4,7 @@
   "version": "${version}",
   "name": "Chest Protector 1.21.1 Backport",
   "description": "Minimal 1.21.1 Fabric backport focused on PIN-protected vanilla chests.",
+  "icon": "assets/chest_protector/icon.png",
   "license": "CC0-1.0",
   "environment": "*",
   "entrypoints": {
