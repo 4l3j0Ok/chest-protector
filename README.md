@@ -2,9 +2,9 @@
   <img src="docs/assets/logo.png" alt="Chest Protector logo" width="320">
 </p>
 
-# Chest Protector — Fabric 1.21.1
+# Chest Protector
 
-Fabric 1.21.1 mod that adds PIN-protected vanilla chests.
+Fabric mod that adds PIN-protected vanilla chests.
 
 ## Features
 
