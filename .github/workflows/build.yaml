@@ -1,0 +1,66 @@
+name: Build Release Jar
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: Release tag to checkout and upload assets to.
+        required: true
+        type: string
+      version:
+        description: Mod version to inject into the build.
+        required: true
+        type: string
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-release-${{ github.event_name == 'workflow_call' && inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build tagged release
+    runs-on: ubuntu-latest
+    env:
+      TAG_NAME: ${{ github.event_name == 'workflow_call' && inputs.tag || github.ref_name }}
+      VERSION: ${{ github.event_name == 'workflow_call' && inputs.version || github.ref_name }}
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG_NAME }}
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build jar
+        run: ./gradlew clean build -Pmod_version="$VERSION"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chest-protector-${{ env.TAG_NAME }}
+          path: build/libs/*.jar
+          if-no-files-found: error
+
+      - name: Attach jar to GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for attempt in {1..12}; do
+            if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+              gh release upload "$TAG_NAME" build/libs/*.jar --clobber
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Release $TAG_NAME was not found after waiting." >&2
+          exit 1
