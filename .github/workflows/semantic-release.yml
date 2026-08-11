@@ -17,6 +17,10 @@ jobs:
   release:
     name: Create release tag
     runs-on: ubuntu-latest
+    outputs:
+      released: ${{ steps.semantic-release.outputs.released }}
+      tag: ${{ steps.semantic-release.outputs.tag }}
+      version: ${{ steps.semantic-release.outputs.version }}
     permissions:
       contents: write
       issues: write
@@ -26,9 +30,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # Required so the tag pushed by semantic-release triggers build-release.yml.
-          # Tags pushed with the default GITHUB_TOKEN do not start new workflow runs.
-          token: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,6 +37,54 @@ jobs:
           node-version: 22
 
       - name: Run semantic-release
+        id: semantic-release
         env:
-          GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
-        run: npx -y semantic-release
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BEFORE_TAG="$(git describe --tags --abbrev=0 2>/dev/null || true)"
+          npx -y semantic-release
+          git fetch --tags --force
+          AFTER_TAG="$(git describe --tags --abbrev=0 2>/dev/null || true)"
+
+          if [ -n "$AFTER_TAG" ] && [ "$AFTER_TAG" != "$BEFORE_TAG" ]; then
+            echo "released=true" >> "$GITHUB_OUTPUT"
+            echo "tag=$AFTER_TAG" >> "$GITHUB_OUTPUT"
+            echo "version=${AFTER_TAG#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "released=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    name: Build release jar
+    runs-on: ubuntu-latest
+    needs: release
+    if: needs.release.outputs.released == 'true'
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release.outputs.tag }}
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build jar
+        run: ./gradlew clean build -Pmod_version="${{ needs.release.outputs.version }}"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chest-protector-${{ needs.release.outputs.tag }}
+          path: build/libs/*.jar
+          if-no-files-found: error
+
+      - name: Attach jar to GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ needs.release.outputs.tag }}
+        run: gh release upload "$TAG_NAME" build/libs/*.jar --clobber
