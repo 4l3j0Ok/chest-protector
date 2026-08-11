@@ -1,0 +1,18 @@
+{
+  "item.chest_protector.password_protector": "Protector de contraseña",
+
+  "chest_protector.screen.setup.title": "Configurar PIN",
+  "chest_protector.screen.setup.subtitle": "Protegé este cofre con un PIN",
+  "chest_protector.screen.setup.confirm": "Guardar PIN",
+
+  "chest_protector.screen.unlock.title": "Introducir PIN",
+  "chest_protector.screen.unlock.subtitle": "Ingresá el PIN para abrir",
+  "chest_protector.screen.unlock.owner": "Cofre de %s",
+  "chest_protector.screen.unlock.confirm": "Abrir cofre",
+
+  "chest_protector.screen.keypad.confirm": "OK",
+
+  "chest_protector.message.protected": "Cofre protegido con PIN.",
+  "chest_protector.message.wrong_pin": "PIN incorrecto.",
+  "chest_protector.message.not_owner": "Solo el propietario puede romper este cofre."
+}

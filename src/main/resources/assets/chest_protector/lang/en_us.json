@@ -1,0 +1,18 @@
+{
+  "item.chest_protector.password_protector": "Password Protector",
+
+  "chest_protector.screen.setup.title": "Set PIN",
+  "chest_protector.screen.setup.subtitle": "Protect this chest with a PIN",
+  "chest_protector.screen.setup.confirm": "Save PIN",
+
+  "chest_protector.screen.unlock.title": "Enter PIN",
+  "chest_protector.screen.unlock.subtitle": "Enter the PIN to open",
+  "chest_protector.screen.unlock.owner": "%s's chest",
+  "chest_protector.screen.unlock.confirm": "Open chest",
+
+  "chest_protector.screen.keypad.confirm": "OK",
+
+  "chest_protector.message.protected": "Chest protected with a PIN.",
+  "chest_protector.message.wrong_pin": "Incorrect PIN.",
+  "chest_protector.message.not_owner": "Only the owner can break this chest."
+}

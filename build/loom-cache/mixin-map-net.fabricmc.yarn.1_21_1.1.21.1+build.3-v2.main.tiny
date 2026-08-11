@@ -1,0 +1,2 @@
+v1	named	intermediary
+FIELD	com/chestprotector/backport/mixin/ExplosionMixin	Lnet/minecraft/world/World;	world	field_9187

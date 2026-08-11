@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "chest_protector",
+  "version": "${version}",
+  "name": "Chest Protector 1.21.1 Backport",
+  "description": "Minimal 1.21.1 Fabric backport focused on PIN-protected vanilla chests.",
+  "license": "CC0-1.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.chestprotector.backport.ChestProtectorBackport"],
+    "client": ["com.chestprotector.backport.client.ChestProtectorBackportClient"]
+  },
+  "mixins": ["chest_protector.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
